@@ -1,0 +1,11 @@
+input:
+"ABAB"
+2
+output:
+4
+
+input:
+"AABABBA"
+1
+output:
+4

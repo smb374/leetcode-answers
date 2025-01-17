@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:27
+// Created by Po-Yeh Chen at 2025/01/16 08:11
 // leetgo: 1.4.13
 // https://leetcode.com/problems/middle-of-the-linked-list/
 
@@ -11,16 +11,18 @@ using namespace std;
 class Solution {
   public:
     ListNode* middleNode(ListNode* head) {
-        if (!head)
-            return nullptr;
-        ListNode *slow = head, *fast = head->next;
+        if (!head || !head->next)
+            return head;
+
+        ListNode* slow = head->next;
+        ListNode* fast = head->next->next;
 
         while (fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
 
-        return (fast && !fast->next) ? slow->next : slow;
+        return slow;
     }
 };
 

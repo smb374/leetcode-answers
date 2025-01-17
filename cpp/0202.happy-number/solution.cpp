@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:25
+// Created by Po-Yeh Chen at 2025/01/16 08:01
 // leetgo: 1.4.13
 // https://leetcode.com/problems/happy-number/
 
@@ -10,35 +10,28 @@ using namespace std;
 
 class Solution {
   private:
-    unordered_map<int, int> seen;
     int next(int n) {
-        if (seen.count(n)) {
-            return seen[n];
-        }
         int sum = 0;
         while (n > 0) {
             int digit = n % 10;
             sum += digit * digit;
             n /= 10;
         }
-        seen[n] = sum;
+
         return sum;
     }
 
   public:
     bool isHappy(int n) {
-        int slow = n;
-        int fast = n;
+        int slow = next(n);
+        int fast = next(next(n));
 
-        while (fast != 1) {
+        while (slow != fast && fast != 1) {
             slow = next(slow);
             fast = next(next(fast));
-            if (slow == fast && fast != 1) {
-                return false;
-            }
         }
 
-        return true;
+        return fast == 1 || slow == 1;
     }
 };
 

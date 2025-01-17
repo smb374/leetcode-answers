@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:29
+// Created by Po-Yeh Chen at 2025/01/17 09:11
 // leetgo: 1.4.13
 // https://leetcode.com/problems/palindrome-linked-list/
 
@@ -15,15 +15,13 @@ class Solution {
             return true;
         if (!head->next->next)
             return head->val == head->next->val;
-        /// 1. Floyd to find middle of LinkedList
-        ListNode* slow = head->next;
-        ListNode* fast = head->next->next;
-
+        // 1. Fast and slow to find list middle.
+        ListNode *slow = head->next, *fast = head->next->next;
         while (fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
-        // 2. Detach and reverse second half of the list.
+        // 2. Reverse second half of the list.
         ListNode *prev = slow, *curr = slow->next;
         prev->next = nullptr;
         while (curr) {

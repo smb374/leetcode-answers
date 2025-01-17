@@ -1,14 +1,14 @@
 input:
-[1,2,2,1]
+"111000"
 output:
-true
+2
 
 input:
-[1,2]
+"010"
 output:
-false
+0
 
 input:
-[1,0,1]
+"1110"
 output:
-true
+1

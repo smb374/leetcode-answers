@@ -1,36 +1,45 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:27
+// Created by Po-Yeh Chen at 2025/01/16 08:19
 // leetgo: 1.4.13
 // https://leetcode.com/problems/circular-array-loop/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
+#include <vector>
 using namespace std;
 
 // @lc code=begin
 
 class Solution {
   private:
-    vector<bool> used;
-    int next(vector<int>& nums, int i) {
-        return (i + nums[i] + nums.size()) % nums.size();
+    vector<bool> visited;
+
+    int next(int i, const vector<int>& nums) {
+        int n = nums.size();
+        int res = (i + nums[i]) % n;
+        while (res < 0) {
+            res += n;
+        }
+        return res;
     }
-    int floyd(vector<int>& nums, int i) {
-        int slow = next(nums, i);
-        int fast = next(nums, next(nums, i));
+    int floyd(int i, const vector<int>& nums) {
+        int slow = next(i, nums);
+        int fast = next(next(i, nums), nums);
+
         while (slow != fast) {
-            slow = next(nums, slow);
-            fast = next(nums, next(nums, fast));
+            slow = next(slow, nums);
+            fast = next(next(fast, nums), nums);
         }
 
         int size = 1;
-        fast = next(nums, slow);
         bool equal_sign = true;
-        used[fast] = true;
-        while (slow != fast) {
-            bool osig = nums[fast] >= 0;
-            fast = next(nums, fast);
-            equal_sign = equal_sign && (osig == (nums[fast] >= 0));
-            used[fast] = true;
+        fast = next(slow, nums);
+        visited[fast] = true;
+        while (fast != slow) {
+            bool sign = nums[fast] >= 0;
+            fast = next(fast, nums);
+            visited[fast] = true;
+            equal_sign = equal_sign && (sign == nums[fast] >= 0);
             size++;
         }
 
@@ -40,14 +49,18 @@ class Solution {
   public:
     bool circularArrayLoop(vector<int>& nums) {
         int n = nums.size();
-        used = vector(n, false);
+        visited = vector(n, false);
+
         for (int i = 0; i < n; i++) {
-            if (used[i])
+            if (visited[i])
                 continue;
-            int size = floyd(nums, i);
-            if (size > 1)
+
+            int size = floyd(i, nums);
+            if (size > 1) {
                 return true;
+            }
         }
+
         return false;
     }
 };
