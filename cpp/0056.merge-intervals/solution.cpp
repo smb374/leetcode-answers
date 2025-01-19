@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/17 10:54
+// Created by Po-Yeh Chen at 2025/01/18 09:59
 // leetgo: 1.4.13
 // https://leetcode.com/problems/merge-intervals/
 
@@ -14,19 +14,19 @@ class Solution {
   public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
         vector<vector<int>> res;
+        res.reserve(intervals.size());
         sort(intervals.begin(), intervals.end(),
              [](const vector<int>& a, const vector<int>& b) {
                  return a[0] < b[0];
              });
 
-        for (int i = 0; i < intervals.size(); i++) {
-            if (res.empty() || intervals[i][0] > res.back()[1]) {
-                res.emplace_back(intervals[i]);
+        for (auto& iv : intervals) {
+            if (res.empty() || iv[0] > res.back()[1]) {
+                res.emplace_back(iv);
             } else {
-                res.back()[1] = max(intervals[i][1], res.back()[1]);
+                res.back()[1] = max(iv[1], res.back()[1]);
             }
         }
-
         return res;
     }
 };

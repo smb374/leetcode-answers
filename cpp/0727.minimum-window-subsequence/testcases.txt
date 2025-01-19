@@ -9,3 +9,9 @@ input:
 "u"
 output:
 ""
+
+input:
+"ababaabababbaabbb"
+"bbbb"
+output:
+"bababb"

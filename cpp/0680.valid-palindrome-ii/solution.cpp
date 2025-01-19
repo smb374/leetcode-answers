@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:22
+// Created by Po-Yeh Chen at 2025/01/18 09:55
 // leetgo: 1.4.13
 // https://leetcode.com/problems/valid-palindrome-ii/
 
@@ -9,7 +9,7 @@ using namespace std;
 // @lc code=begin
 
 class Solution {
-  public:
+  private:
     bool validPalindromeRange(const string& s, int i, int j) {
         while (i < j) {
             if (s[i] != s[j])
@@ -19,10 +19,10 @@ class Solution {
         }
         return true;
     }
-    bool validPalindrome(string s) {
-        int n = s.length();
-        int i = 0, j = n - 1;
 
+  public:
+    bool validPalindrome(string s) {
+        int i = 0, j = s.length() - 1;
         while (i < j) {
             if (s[i] != s[j])
                 return validPalindromeRange(s, i + 1, j) ||

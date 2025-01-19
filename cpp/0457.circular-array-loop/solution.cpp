@@ -1,10 +1,9 @@
-// Created by Po-Yeh Chen at 2025/01/16 08:19
+// Created by Po-Yeh Chen at 2025/01/18 11:03
 // leetgo: 1.4.13
 // https://leetcode.com/problems/circular-array-loop/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
-#include <cstdio>
 #include <vector>
 using namespace std;
 
@@ -12,55 +11,49 @@ using namespace std;
 
 class Solution {
   private:
-    vector<bool> visited;
-
+    vector<bool> seen;
     int next(int i, const vector<int>& nums) {
         int n = nums.size();
         int res = (i + nums[i]) % n;
-        while (res < 0) {
+        while (res < 0)
             res += n;
-        }
         return res;
     }
-    int floyd(int i, const vector<int>& nums) {
+    int floyd(const vector<int>& nums, int i) {
         int slow = next(i, nums);
-        int fast = next(next(i, nums), nums);
+        int fast = next(slow, nums);
 
         while (slow != fast) {
             slow = next(slow, nums);
             fast = next(next(fast, nums), nums);
         }
 
-        int size = 1;
+        int len = 1;
         bool equal_sign = true;
         fast = next(slow, nums);
-        visited[fast] = true;
+        seen[fast] = true;
         while (fast != slow) {
             bool sign = nums[fast] >= 0;
             fast = next(fast, nums);
-            visited[fast] = true;
+            seen[fast] = true;
             equal_sign = equal_sign && (sign == nums[fast] >= 0);
-            size++;
+            len++;
         }
 
-        return equal_sign ? size : 1;
+        return equal_sign ? len : 1;
     }
 
   public:
     bool circularArrayLoop(vector<int>& nums) {
-        int n = nums.size();
-        visited = vector(n, false);
+        seen = vector(nums.size(), false);
 
-        for (int i = 0; i < n; i++) {
-            if (visited[i])
+        for (int i = 0; i < nums.size(); i++) {
+            if (seen[i])
                 continue;
-
-            int size = floyd(i, nums);
-            if (size > 1) {
+            if (floyd(nums, i) > 1) {
                 return true;
             }
         }
-
         return false;
     }
 };

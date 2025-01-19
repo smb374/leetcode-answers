@@ -1,11 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/17 11:11
+// Created by Po-Yeh Chen at 2025/01/18 10:23
 // leetgo: 1.4.13
 // https://leetcode.com/problems/interval-list-intersections/
 
 #include "LC_IO.h"
 #include <algorithm>
 #include <bits/stdc++.h>
-#include <cstdio>
 #include <vector>
 using namespace std;
 
@@ -15,19 +14,17 @@ class Solution {
   public:
     vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList,
                                              vector<vector<int>>& secondList) {
-        int i = 0, j = 0, n = firstList.size(), m = secondList.size(),
-            count = 0;
+        int i = 0, j = 0, m = firstList.size(), n = secondList.size();
         vector<vector<int>> res;
+        res.reserve(m + n);
 
-        while (i < n && j < m) {
-            auto i1 = firstList[i];
-            auto i2 = secondList[j];
-            int start = max(i1[0], i2[0]);
-            int end = min(i1[1], i2[1]);
-            if (start <= end) {
+        while (i < m && j < n) {
+            int start = max(firstList[i][0], secondList[j][0]);
+            int end = min(firstList[i][1], secondList[j][1]);
+            if (start <= end)
                 res.push_back({start, end});
-            }
-            if (i1[1] < i2[1]) {
+
+            if (firstList[i][1] < secondList[j][1]) {
                 i++;
             } else {
                 j++;

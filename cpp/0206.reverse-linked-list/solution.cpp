@@ -1,6 +1,6 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:54
+// Created by Po-Yeh Chen at 2025/01/18 15:44
 // leetgo: 1.4.13
-// https://leetcode.com/problems/middle-of-the-linked-list/
+// https://leetcode.com/problems/reverse-linked-list/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
@@ -10,18 +10,20 @@ using namespace std;
 
 class Solution {
   public:
-    ListNode* middleNode(ListNode* head) {
+    ListNode* reverseList(ListNode* head) {
         if (!head || !head->next)
             return head;
+        ListNode dummy(-1, head);
+        ListNode *prev = &dummy, *curr = head, *next = curr->next;
 
-        ListNode *slow = head->next, *fast = head->next->next;
-
-        while (fast && fast->next) {
-            slow = slow->next;
-            fast = fast->next->next;
+        while (next) {
+            curr->next = next->next;
+            next->next = prev->next;
+            prev->next = next;
+            next = curr->next;
         }
 
-        return slow;
+        return dummy.next;
     }
 };
 
@@ -35,7 +37,7 @@ int main() {
     LeetCodeIO::scan(cin, head);
 
     Solution* obj = new Solution();
-    auto res = obj->middleNode(head);
+    auto res = obj->reverseList(head);
     LeetCodeIO::print(out_stream, res);
     cout << "\noutput: " << out_stream.rdbuf() << endl;
 

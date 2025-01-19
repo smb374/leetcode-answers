@@ -1,9 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/15 12:20
+// Created by Po-Yeh Chen at 2025/01/18 10:12
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reverse-words-in-a-string/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
+#include <string>
 using namespace std;
 
 // @lc code=begin
@@ -11,37 +13,26 @@ using namespace std;
 class Solution {
   public:
     string reverseWords(string s) {
-        int n = s.length(), i = 0, j, top = s.length();
+        int n = s.length(), top = n;
         string res(n, ' ');
-        while (s[i] == ' ')
-            i++;
-
-        j = i;
+        int i = 0, j = 0;
+        while (j < n && s[j] == ' ')
+            j++;
+        i = j;
         while (j < n) {
-            if (s[j] != ' ') {
+            while (j < n && s[j] != ' ')
                 j++;
-                continue;
-            } else {
-                int size = j - i;
-                for (int k = 0; k < size; k++) {
-                    res[top - size + k] = s[i + k];
-                }
-                top -= size + 1;
-                while (s[j] == ' ')
-                    j++;
-                i = j;
+            int size = j - i;
+            for (int k = 0; k < size; k++) {
+                res[top - size + k] = s[i + k];
             }
-        }
-        int size = j - i;
-        for (int k = 0; k < size; k++) {
-            res[top - size + k] = s[i + k];
+            top -= size + 1;
+            while (j < n && s[j] == ' ')
+                j++;
+            i = j;
         }
 
-        int start = 0;
-        while (res[start] == ' ')
-            start++;
-
-        return res.substr(start);
+        return res.substr(top + 1);
     }
 };
 

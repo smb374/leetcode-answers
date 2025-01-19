@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/16 08:01
+// Created by Po-Yeh Chen at 2025/01/18 10:46
 // leetgo: 1.4.13
 // https://leetcode.com/problems/happy-number/
 
@@ -11,27 +11,26 @@ using namespace std;
 class Solution {
   private:
     int next(int n) {
-        int sum = 0;
-        while (n > 0) {
-            int digit = n % 10;
-            sum += digit * digit;
+        int res = 0;
+        while (n) {
+            int dig = n % 10;
+            res += dig * dig;
             n /= 10;
         }
-
-        return sum;
+        return res;
     }
 
   public:
     bool isHappy(int n) {
         int slow = next(n);
-        int fast = next(next(n));
+        int fast = next(slow);
 
         while (slow != fast && fast != 1) {
             slow = next(slow);
             fast = next(next(fast));
         }
 
-        return fast == 1 || slow == 1;
+        return fast == 1;
     }
 };
 

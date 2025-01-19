@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/16 08:06
+// Created by Po-Yeh Chen at 2025/01/18 10:49
 // leetgo: 1.4.13
 // https://leetcode.com/problems/linked-list-cycle/
 
@@ -14,9 +14,7 @@ class Solution {
         if (!head || !head->next)
             return false;
 
-        ListNode* slow = head->next;
-        ListNode* fast = head->next->next;
-
+        ListNode *slow = head->next, *fast = head->next->next;
         while (fast && fast->next && slow != fast) {
             slow = slow->next;
             fast = fast->next->next;

@@ -9,9 +9,3 @@ input:
 []
 output:
 []
-
-input:
-[[3,10]]
-[[5,10]]
-output:
-[[5,10]]
