@@ -1,9 +1,8 @@
-// Created by Po-Yeh Chen at 2025/01/17 09:42
+// Created by Po-Yeh Chen at 2025/01/20 10:29
 // leetgo: 1.4.13
 // https://leetcode.com/problems/minimum-size-subarray-sum/
 
 #include "LC_IO.h"
-#include <algorithm>
 #include <bits/stdc++.h>
 #include <limits>
 using namespace std;
@@ -13,20 +12,18 @@ using namespace std;
 class Solution {
   public:
     int minSubArrayLen(int target, vector<int>& nums) {
-        int i = 0, j = 0, n = nums.size(), sum = 0,
-            mlen = numeric_limits<int>::max();
+        int lo = 0, res = numeric_limits<int>::max(), sum = 0, n = nums.size();
 
-        for (int j = 0; j < n; j++) {
-            sum += nums[j];
-
-            while (sum >= target && i <= j) {
-                mlen = min(mlen, j - i + 1);
-                sum -= nums[i];
-                i++;
+        for (int hi = 0; hi < n; hi++) {
+            sum += nums[hi];
+            while (sum >= target) {
+                res = min(res, hi - lo + 1);
+                sum -= nums[lo];
+                lo++;
             }
         }
 
-        return mlen == numeric_limits<int>::max() ? 0 : mlen;
+        return res == numeric_limits<int>::max() ? 0 : res;
     }
 };
 

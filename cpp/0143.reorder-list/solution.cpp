@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 17:20
+// Created by Po-Yeh Chen at 2025/01/22 08:53
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reorder-list/
 
@@ -14,24 +14,22 @@ class Solution {
     void reorderList(ListNode* head) {
         if (!head || !head->next)
             return;
-        ListNode *slow = head->next, *fast = head->next->next, *curr, *prev;
+
         ListNode front(-1), back(-1);
-        // Find list center
+        ListNode *slow = head->next, *fast = head->next->next, *curr, *prev;
         while (fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
+
         prev = &front;
         curr = head;
-        // Build front list: head to previous of center
         while (curr != slow) {
             prev->next = curr;
             prev = curr;
             curr = curr->next;
         }
-        // remember to strip front's tail.
         prev->next = nullptr;
-        // Build back list: center to end.
         prev = &back;
         curr = slow;
         while (curr) {

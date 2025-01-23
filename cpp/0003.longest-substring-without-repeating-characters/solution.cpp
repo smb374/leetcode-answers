@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/17 09:00
+// Created by Po-Yeh Chen at 2025/01/21 14:17
 // leetgo: 1.4.13
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 
@@ -12,17 +12,24 @@ using namespace std;
 class Solution {
   public:
     int lengthOfLongestSubstring(string s) {
-        if (s.empty())
-            return 0;
-        int seen[128] = {0}, max_len = 1, i = 0, n = s.length();
+        int window[128] = {0};
+        int lo = 0, hi = 0, n = s.length(), res = 0;
 
-        for (int j = 0; j < n; j++) {
-            i = max(i, seen[s[j]]);
-            max_len = max(max_len, j - i + 1);
-            seen[s[j]] = j + 1;
+        while (hi < n) {
+            char c = s[hi];
+            hi++;
+            window[c]++;
+
+            while (window[c] > 1) {
+                char d = s[lo];
+                lo++;
+                window[d]--;
+            }
+
+            res = max(res, hi - lo);
         }
 
-        return max_len;
+        return res;
     }
 };
 

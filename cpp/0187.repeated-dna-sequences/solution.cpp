@@ -1,9 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/17 10:08
+// Created by Po-Yeh Chen at 2025/01/20 10:07
 // leetgo: 1.4.13
 // https://leetcode.com/problems/repeated-dna-sequences/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <string>
 #include <string_view>
 #include <unordered_set>
 #include <vector>
@@ -13,7 +14,7 @@ using namespace std;
 
 class Solution {
   private:
-    constexpr int to_int(const char c) {
+    int to_int(const char c) {
         switch (c) {
         case 'A':
             return 0;
@@ -30,22 +31,22 @@ class Solution {
 
   public:
     vector<string> findRepeatedDnaSequences(string s) {
-        int n = s.length(), h = 0;
-        unordered_set<int> seen, used;
-        vector<string> res;
         string_view sv(s);
-
+        vector<string> res;
+        unordered_set<int> seen, used;
+        int h = 0;
         for (int i = 0; i < 10; i++) {
-            h = (h << 2) | to_int(s[i]);
+            h = (h << 2) | to_int(sv[i]);
         }
         seen.insert(h);
-        for (int i = 1; i <= n - 10; i++) {
-            h = ((h << 2) | to_int(s[i + 10 - 1])) & 0xFFFFF;
+        for (int i = 10; i < sv.length(); i++) {
+            h = ((h << 2) | to_int(sv[i])) & 0xFFFFF;
+
             if (used.count(h))
                 continue;
 
             if (!seen.insert(h).second) {
-                res.emplace_back(sv.substr(i, 10));
+                res.emplace_back(sv.substr(i - 10 + 1, 10));
                 used.insert(h);
             }
         }

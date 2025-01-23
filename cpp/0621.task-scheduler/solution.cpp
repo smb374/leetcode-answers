@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:24
+// Created by Po-Yeh Chen at 2025/01/21 09:18
 // leetgo: 1.4.13
 // https://leetcode.com/problems/task-scheduler/
 
@@ -13,16 +13,16 @@ class Solution {
   public:
     int leastInterval(vector<char>& tasks, int n) {
         int freq[26] = {0}, max_freq = 0, max_count = 0, sz = tasks.size();
+
         for (const char c : tasks) {
-            int idx = c - 'A';
-            freq[idx]++;
-            max_freq = max(max_freq, freq[idx]);
+            freq[c - 'A']++;
+            max_freq = max(max_freq, freq[c - 'A']);
         }
         for (int i = 0; i < 26; i++) {
             max_count += freq[i] == max_freq;
         }
 
-        return max(sz, (n + 1) * (max_freq - 1) + max_count);
+        return max(sz, (max_freq - 1) * (n + 1) + max_count);
     }
 };
 

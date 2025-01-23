@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 15:44
+// Created by Po-Yeh Chen at 2025/01/22 08:40
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reverse-linked-list/
 
@@ -14,7 +14,7 @@ class Solution {
         if (!head || !head->next)
             return head;
         ListNode dummy(-1, head);
-        ListNode *prev = &dummy, *curr = head, *next = curr->next;
+        ListNode *prev = &dummy, *curr = head, *next = head->next;
 
         while (next) {
             curr->next = next->next;

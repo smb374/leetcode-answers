@@ -1,9 +1,8 @@
-// Created by Po-Yeh Chen at 2025/01/17 10:26
+// Created by Po-Yeh Chen at 2025/01/20 10:24
 // leetgo: 1.4.13
 // https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/
 
 #include "LC_IO.h"
-#include <algorithm>
 #include <bits/stdc++.h>
 #include <limits>
 #include <string>
@@ -14,17 +13,18 @@ using namespace std;
 class Solution {
   public:
     int minFlips(string s) {
-        int n = s.length(), n2 = n << 1, diff = 0,
-            res = numeric_limits<int>::max();
-        string pat(n2, '1');
+        int n = s.length(), diff = 0, res;
+        string pat(n * 2, '1');
+
         for (int i = 0; i < n; i++) {
             pat[i << 1] = '0';
         }
 
         for (int i = 0; i < n; i++) {
-            diff += (pat[i] != s[i]);
+            diff += pat[i] != s[i];
         }
-        for (int i = n; i < n2; i++) {
+        res = min(diff, n - diff);
+        for (int i = n; i < n * 2; i++) {
             diff += (pat[i] != s[i - n]) - (pat[i - n] != s[i - n]);
             res = min(res, min(diff, n - diff));
         }

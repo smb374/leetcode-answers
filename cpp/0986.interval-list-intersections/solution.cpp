@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:23
+// Created by Po-Yeh Chen at 2025/01/21 09:38
 // leetgo: 1.4.13
 // https://leetcode.com/problems/interval-list-intersections/
 
@@ -14,9 +14,9 @@ class Solution {
   public:
     vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList,
                                              vector<vector<int>>& secondList) {
-        int i = 0, j = 0, m = firstList.size(), n = secondList.size();
         vector<vector<int>> res;
-        res.reserve(m + n);
+        int m = firstList.size(), n = secondList.size();
+        int i = 0, j = 0;
 
         while (i < m && j < n) {
             int start = max(firstList[i][0], secondList[j][0]);

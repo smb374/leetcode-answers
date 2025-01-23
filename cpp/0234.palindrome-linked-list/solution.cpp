@@ -1,42 +1,49 @@
-// Created by Po-Yeh Chen at 2025/01/17 09:11
+// Created by Po-Yeh Chen at 2025/01/21 08:12
 // leetgo: 1.4.13
 // https://leetcode.com/problems/palindrome-linked-list/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
 using namespace std;
 
 // @lc code=begin
 
 class Solution {
+  private:
+    ListNode* reverse(ListNode* head) {
+        ListNode dummy(-1, head);
+        ListNode *prev = &dummy, *curr = head, *next = head->next;
+
+        while (next) {
+            curr->next = next->next;
+            next->next = prev->next;
+            prev->next = next;
+            next = curr->next;
+        }
+
+        return dummy.next;
+    }
+
   public:
     bool isPalindrome(ListNode* head) {
         if (!head || !head->next)
             return true;
-        if (!head->next->next)
-            return head->val == head->next->val;
-        // 1. Fast and slow to find list middle.
-        ListNode *slow = head->next, *fast = head->next->next;
+
+        ListNode *slow = head->next, *fast = head->next->next, *prev = head;
         while (fast && fast->next) {
+            prev = slow;
             slow = slow->next;
             fast = fast->next->next;
         }
-        // 2. Reverse second half of the list.
-        ListNode *prev = slow, *curr = slow->next;
         prev->next = nullptr;
-        while (curr) {
-            ListNode* next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
-        }
-        // 3. Check palindrome.
-        fast = head;
-        slow = prev;
+        ListNode* back = reverse(slow);
+        slow = head;
+        fast = back;
+
         while (slow) {
-            if (slow->val != fast->val) {
+            if (slow->val != fast->val)
                 return false;
-            }
             slow = slow->next;
             fast = fast->next;
         }

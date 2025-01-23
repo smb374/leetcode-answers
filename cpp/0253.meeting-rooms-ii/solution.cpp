@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:44
+// Created by Po-Yeh Chen at 2025/01/21 08:47
 // leetgo: 1.4.13
 // https://leetcode.com/problems/meeting-rooms-ii/
 
@@ -15,20 +15,20 @@ using namespace std;
 class Solution {
   public:
     int minMeetingRooms(vector<vector<int>>& intervals) {
+        priority_queue<int, vector<int>, greater<>> min_heap;
         sort(intervals.begin(), intervals.end(),
              [](const vector<int>& a, const vector<int>& b) {
                  return a[0] < b[0];
              });
-        priority_queue<int, vector<int>, greater<>> pq;
 
-        for (int i = 0; i < intervals.size(); i++) {
-            if (!pq.empty() && intervals[i][0] >= pq.top()) {
-                pq.pop();
+        for (auto& iv : intervals) {
+            if (!min_heap.empty() && iv[0] >= min_heap.top()) {
+                min_heap.pop();
             }
-            pq.push(intervals[i][1]);
+            min_heap.push(iv[1]);
         }
 
-        return pq.size();
+        return min_heap.size();
     }
 };
 

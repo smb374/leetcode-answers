@@ -4,6 +4,7 @@
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
 using namespace std;
 
 // @lc code=begin
@@ -15,22 +16,17 @@ class Solution {
             return nullptr;
         ListNode dummy(-1, head);
         int count = 0;
-        ListNode *curr = dummy.next, *prev;
-        while (curr) {
-            count++;
-            curr = curr->next;
+        ListNode *slow = &dummy, *fast = &dummy, *prev;
+        for (int i = 0; i < n; i++) {
+            fast = fast->next;
         }
-        int target = count - n;
-        prev = &dummy, curr = head;
-        count = 0;
-        while (curr && count < target) {
-            count++;
-            prev = curr;
-            curr = curr->next;
+        while (fast) {
+            prev = slow;
+            slow = slow->next;
+            fast = fast->next;
         }
 
-        prev->next = curr->next;
-
+        prev->next = prev->next->next;
         return dummy.next;
     }
 };

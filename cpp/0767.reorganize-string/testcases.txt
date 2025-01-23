@@ -1,0 +1,9 @@
+input:
+"aab"
+output:
+"aba"
+
+input:
+"aaab"
+output:
+""

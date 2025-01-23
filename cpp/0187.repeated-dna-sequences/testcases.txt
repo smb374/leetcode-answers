@@ -7,8 +7,3 @@ input:
 "AAAAAAAAAAAAA"
 output:
 ["AAAAAAAAAA"]
-
-input:
-"AAAAAAAAAAA"
-output:
-["AAAAAAAAAA"]

@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/17 10:20
+// Created by Po-Yeh Chen at 2025/01/20 10:36
 // leetgo: 1.4.13
 // https://leetcode.com/problems/longest-repeating-character-replacement/
 
@@ -12,21 +12,22 @@ using namespace std;
 class Solution {
   public:
     int characterReplacement(string s, int k) {
-        int freq[128] = {0}, lo = 0, n = s.size(), max_freq = 0, max_len = 0;
+        int n = s.length(), res = 0;
+        int freq[128] = {0}, max_freq = 0;
+        int lo = 0;
 
         for (int hi = 0; hi < n; hi++) {
             freq[s[hi]]++;
             max_freq = max(max_freq, freq[s[hi]]);
 
-            if ((hi - lo + 1) - max_freq > k) {
+            while ((hi - lo + 1) - max_freq > k) {
                 freq[s[lo]]--;
                 lo++;
             }
-
-            max_len = max(max_len, hi - lo + 1);
+            res = max(res, hi - lo + 1);
         }
 
-        return max_len;
+        return res;
     }
 };
 

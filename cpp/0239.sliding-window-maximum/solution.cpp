@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/17 09:34
+// Created by Po-Yeh Chen at 2025/01/20 10:13
 // leetgo: 1.4.13
 // https://leetcode.com/problems/sliding-window-maximum/
 
@@ -24,9 +24,9 @@ class Solution {
             dq.push_back(i);
         }
 
-        res.push_back(nums[dq.front()]);
+        res.emplace_back(nums[dq.front()]);
         for (int i = k; i < n; i++) {
-            if (dq.front() == i - k) {
+            if (i - k == dq.front()) {
                 dq.pop_front();
             }
 
@@ -34,7 +34,7 @@ class Solution {
                 dq.pop_back();
             }
             dq.push_back(i);
-            res.push_back(nums[dq.front()]);
+            res.emplace_back(nums[dq.front()]);
         }
 
         return res;

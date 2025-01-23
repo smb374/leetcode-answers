@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:59
+// Created by Po-Yeh Chen at 2025/01/21 08:28
 // leetgo: 1.4.13
 // https://leetcode.com/problems/merge-intervals/
 
@@ -22,9 +22,9 @@ class Solution {
 
         for (auto& iv : intervals) {
             if (res.empty() || iv[0] > res.back()[1]) {
-                res.emplace_back(iv);
+                res.push_back(iv);
             } else {
-                res.back()[1] = max(iv[1], res.back()[1]);
+                res.back()[1] = max(res.back()[1], iv[1]);
             }
         }
         return res;

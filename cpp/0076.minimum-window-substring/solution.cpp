@@ -1,10 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/17 09:25
+// Created by Po-Yeh Chen at 2025/01/21 14:10
 // leetgo: 1.4.13
 // https://leetcode.com/problems/minimum-window-substring/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
-#include <limits>
+#include <climits>
 using namespace std;
 
 // @lc code=begin
@@ -12,44 +12,41 @@ using namespace std;
 class Solution {
   public:
     string minWindow(string s, string t) {
-        // Edge case
-        if (s.empty() || t.empty() || s.length() < t.length()) {
-            return "";
-        }
-        int target[128] = {0}, window[128] = {0}, required = 0, formed = 0;
-        int lo = 0, hi = 0, n = s.length(), mlen = numeric_limits<int>::max(),
-            base = 0;
-
+        int m = s.size(), n = t.size();
+        int target[128] = {0}, window[128] = {0};
+        int required = 0, formed = 0, lo = 0, hi = 0;
+        int base = 0, mlen = INT_MAX;
         for (const char c : t) {
             if (!target[c])
                 required++;
             target[c]++;
         }
 
-        while (hi < n) {
-            char c = s[hi];
-            window[c]++;
-            if (target[c] && target[c] == window[c]) {
-                formed++;
+        while (hi < m) {
+            char c = s[hi++];
+            if (target[c]) {
+                window[c]++;
+                if (window[c] == target[c]) {
+                    formed++;
+                }
             }
 
-            while (lo <= hi && formed == required) {
-                if (hi - lo + 1 < mlen) {
-                    mlen = hi - lo + 1;
+            while (formed == required) {
+                if (hi - lo < mlen) {
+                    mlen = hi - lo;
                     base = lo;
                 }
 
-                c = s[lo];
-                window[c]--;
-                if (target[c] && window[c] < target[c]) {
-                    formed--;
+                char d = s[lo++];
+                if (target[d]) {
+                    if (window[d] == target[d]) {
+                        formed--;
+                    }
+                    window[d]--;
                 }
-                lo++;
             }
-            hi++;
         }
-
-        return mlen == numeric_limits<int>::max() ? "" : s.substr(base, mlen);
+        return mlen == INT_MAX ? "" : s.substr(base, mlen);
     }
 };
 

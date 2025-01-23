@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:02
+// Created by Po-Yeh Chen at 2025/01/21 08:33
 // leetgo: 1.4.13
 // https://leetcode.com/problems/insert-interval/
 
@@ -14,20 +14,25 @@ class Solution {
   public:
     vector<vector<int>> insert(vector<vector<int>>& intervals,
                                vector<int>& newInterval) {
+        int n = intervals.size(), i = 0;
         vector<vector<int>> res;
-        res.reserve(intervals.size() + 1);
-        intervals.emplace_back(newInterval);
-        sort(intervals.begin(), intervals.end(),
-             [](const vector<int>& a, const vector<int>& b) {
-                 return a[0] < b[0];
-             });
+        res.reserve(n + 1);
 
-        for (auto& iv : intervals) {
-            if (res.empty() || iv[0] > res.back()[1]) {
-                res.emplace_back(iv);
-            } else {
-                res.back()[1] = max(iv[1], res.back()[1]);
-            }
+        while (i < n && intervals[i][1] < newInterval[0]) {
+            res.push_back(intervals[i]);
+            i++;
+        }
+
+        while (i < n && newInterval[1] >= intervals[i][0]) {
+            newInterval[0] = min(newInterval[0], intervals[i][0]);
+            newInterval[1] = max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        res.push_back(newInterval);
+
+        while (i < n) {
+            res.push_back(intervals[i]);
+            i++;
         }
 
         return res;

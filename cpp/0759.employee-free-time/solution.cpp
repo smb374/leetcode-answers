@@ -1,15 +1,17 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:03
+// Created by Po-Yeh Chen at 2025/01/21 09:10
 // leetgo: 1.4.13
 // https://leetcode.com/problems/employee-free-time/
 
 #include "LC_IO.h"
 #include <algorithm>
 #include <bits/stdc++.h>
+#include <functional>
+#include <limits>
+#include <queue>
 #include <utility>
 #include <vector>
 using namespace std;
 
-// Definition for an Interval.
 class Interval {
   public:
     int start;
@@ -24,31 +26,31 @@ class Interval {
 };
 
 // @lc code=begin
-using event = pair<int, int>;
+
 class Solution {
   public:
+    using element = pair<int, pair<int, int>>;
     vector<Interval> employeeFreeTime(vector<vector<Interval>> schedule) {
+        priority_queue<element, vector<element>, greater<>> min_heap;
         vector<Interval> res;
-        vector<event> events;
+        int anchor = numeric_limits<int>::max();
         for (int i = 0; i < schedule.size(); i++) {
-            for (Interval& iv : schedule[i]) {
-                events.emplace_back(iv.start, -1);
-                events.emplace_back(iv.end, 1);
-            }
+            min_heap.push({schedule[i][0].start, {i, 0}});
+            anchor = min(anchor, schedule[i][0].start);
         }
 
-        sort(events.begin(), events.end(), [](const event& a, const event& b) {
-            return a.first != b.first ? a.first < b.first : a.second < b.second;
-        });
-
-        int prev = -1, bal = 0;
-
-        for (const event& ev : events) {
-            if (!bal && prev >= 0) {
-                res.emplace_back(prev, ev.first);
+        while (!min_heap.empty()) {
+            element top = min_heap.top();
+            min_heap.pop();
+            int start = top.first;
+            auto [eidx, idx] = top.second;
+            if (anchor < start) {
+                res.emplace_back(anchor, start);
             }
-            bal -= ev.second;
-            prev = ev.first;
+            anchor = max(anchor, schedule[eidx][idx].end);
+            if (++idx < schedule[eidx].size()) {
+                min_heap.push({schedule[eidx][idx].start, {eidx, idx}});
+            }
         }
 
         return res;

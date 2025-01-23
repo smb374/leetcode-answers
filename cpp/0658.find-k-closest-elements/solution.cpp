@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/17 10:04
+// Created by Po-Yeh Chen at 2025/01/21 11:13
 // leetgo: 1.4.13
 // https://leetcode.com/problems/find-k-closest-elements/
 
@@ -12,8 +12,10 @@ class Solution {
   public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
         int lo = 0, hi = arr.size() - k;
+
         while (lo < hi) {
             int mid = lo + ((hi - lo) >> 1);
+            // lo is futher than hi to x.
             if (x - arr[mid] > arr[mid + k] - x) {
                 lo = mid + 1;
             } else {

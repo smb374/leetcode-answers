@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 16:02
+// Created by Po-Yeh Chen at 2025/01/22 08:47
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reverse-linked-list-ii/
 
@@ -14,16 +14,14 @@ class Solution {
     ListNode* reverseBetween(ListNode* head, int left, int right) {
         if (!head || left == right)
             return head;
-
         ListNode dummy(-1, head);
         ListNode *prev = &dummy, *curr = head, *next;
-        int i;
-        for (i = 1; i < left; i++) {
+        for (int i = 0; i < left - 1; i++) {
             prev = curr;
             curr = curr->next;
         }
         next = curr->next;
-        for (i = left; i < right; i++) {
+        for (int i = left; i < right && next; i++) {
             curr->next = next->next;
             next->next = prev->next;
             prev->next = next;

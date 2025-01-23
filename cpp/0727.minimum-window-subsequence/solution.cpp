@@ -1,11 +1,9 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:12
+// Created by Po-Yeh Chen at 2025/01/21 09:24
 // leetgo: 1.4.13
 // https://leetcode.com/problems/minimum-window-subsequence/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
-#include <csignal>
-#include <cstddef>
 #include <limits>
 using namespace std;
 
@@ -14,16 +12,17 @@ using namespace std;
 class Solution {
   public:
     string minWindow(string s1, string s2) {
-        int n = s1.length(), m = s2.length();
-        int i = 0, satisfied = 0, base = 0, mlen = numeric_limits<int>::max();
+        int m = s1.size(), n = s2.size();
+        int i = 0, satisfied = 0;
+        int base = 0, mlen = numeric_limits<int>::max();
 
-        while (i < n) {
+        while (i < m) {
             if (s1[i] == s2[satisfied]) {
                 satisfied++;
             }
             i++;
 
-            if (satisfied == m) {
+            if (satisfied == n) {
                 int lo = i, hi = i, j = satisfied;
                 while (j) {
                     if (s1[lo - 1] == s2[j - 1]) {

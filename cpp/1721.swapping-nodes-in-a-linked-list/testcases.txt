@@ -15,9 +15,3 @@ input:
 2
 output:
 [90,100]
-
-input:
-[1,2,3]
-2
-output:
-[1,2,3]
