@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/22 10:53
+// Created by Po-Yeh Chen at 2025/01/23 08:43
 // leetgo: 1.4.13
 // https://leetcode.com/problems/subsets/
 
@@ -11,27 +11,24 @@ using namespace std;
 
 class Solution {
   private:
-    void backtrack(int idx, vector<int>& path, vector<vector<int>>& res,
-                   const vector<int>& nums) {
+    vector<int> path;
+    void backtrack(int idx, vector<vector<int>>& res, const vector<int>& nums) {
         if (idx == nums.size()) {
             res.emplace_back(path);
             return;
         }
-        // Case 1. take current element.
+
         path.push_back(nums[idx]);
-        backtrack(idx + 1, path, res, nums);
+        backtrack(idx + 1, res, nums);
         path.pop_back();
-        // Case 2. skip current element.
-        backtrack(idx + 1, path, res, nums);
+        backtrack(idx + 1, res, nums);
     }
 
   public:
     vector<vector<int>> subsets(vector<int>& nums) {
-        vector<vector<int>> res;
-        vector<int> path;
         path.reserve(nums.size());
-        backtrack(0, path, res, nums);
-
+        vector<vector<int>> res;
+        backtrack(0, res, nums);
         return res;
     }
 };

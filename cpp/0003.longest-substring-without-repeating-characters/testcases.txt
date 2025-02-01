@@ -12,3 +12,8 @@ input:
 "pwwkew"
 output:
 3
+
+input:
+"au"
+output:
+2

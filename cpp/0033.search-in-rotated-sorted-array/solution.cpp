@@ -1,9 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/22 09:52
+// Created by Po-Yeh Chen at 2025/01/29 09:40
 // leetgo: 1.4.13
 // https://leetcode.com/problems/search-in-rotated-sorted-array/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -11,23 +12,21 @@ using namespace std;
 class Solution {
   public:
     int search(vector<int>& nums, int target) {
-        int lo = 0, hi = nums.size();
+        size_t sz = nums.size();
+        int lo = 0, hi = sz;
 
         while (lo < hi) {
             int mid = lo + ((hi - lo) >> 1);
-
             if (nums[mid] == target) {
                 return mid;
-            }
-            if (nums[mid] >= nums[lo]) {
-                if (target >= nums[lo] && target < nums[mid]) {
+            } else if (nums[mid] >= nums[0]) {
+                if (target >= nums[0] && target <= nums[mid]) {
                     hi = mid;
                 } else {
                     lo = mid + 1;
                 }
-            } else {
-                // Remember to use hi - 1 as right opened range search
-                if (target <= nums[hi - 1] && target > nums[mid]) {
+            } else if (nums[mid] <= nums[sz - 1]) {
+                if (target <= nums[sz - 1] && target >= nums[mid]) {
                     lo = mid + 1;
                 } else {
                     hi = mid;

@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/22 08:43
+// Created by Po-Yeh Chen at 2025/01/31 10:38
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reverse-nodes-in-k-group/
 
@@ -16,12 +16,10 @@ class Solution {
         ListNode dummy(-1, head);
         ListNode *prev = &dummy, *curr = head, *next;
         int count = 0;
-        // 1. Count list length
         while (curr) {
             count++;
             curr = curr->next;
         }
-        // 2. Reverse K Group
         while (count >= k) {
             curr = prev->next;
             next = curr->next;

@@ -1,10 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:50
+// Created by Po-Yeh Chen at 2025/01/24 10:42
 // leetgo: 1.4.13
 // https://leetcode.com/problems/valid-palindrome/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
 #include <cctype>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -12,18 +13,23 @@ using namespace std;
 class Solution {
   public:
     bool isPalindrome(string s) {
-        int i = 0, j = s.size() - 1;
-        while (i < j) {
-            if (!isalnum(s[i])) {
-                i++;
-            } else if (!isalnum(s[j])) {
-                j--;
-            } else if (tolower(s[i]) != tolower(s[j])) {
-                return false;
-            } else {
-                i++;
-                j--;
+        size_t sz = s.length();
+        if (sz <= 1)
+            return true;
+
+        int lo = 0, hi = sz - 1;
+        while (lo < hi) {
+            while (lo < hi && !isalnum(s[lo])) {
+                lo++;
             }
+            while (lo < hi && !isalnum(s[hi])) {
+                hi--;
+            }
+
+            if (tolower(s[lo]) != tolower(s[hi]))
+                return false;
+            lo++;
+            hi--;
         }
 
         return true;

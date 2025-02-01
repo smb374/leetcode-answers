@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/22 09:10
+// Created by Po-Yeh Chen at 2025/01/23 09:25
 // leetgo: 1.4.13
 // https://leetcode.com/problems/swapping-nodes-in-a-linked-list/
 
@@ -14,7 +14,6 @@ class Solution {
     ListNode* swapNodes(ListNode* head, int k) {
         if (!head || !head->next)
             return head;
-
         ListNode dummy(-1, head);
         ListNode *slow = &dummy, *fast = &dummy, *prev, *p1, *p2;
         for (int i = 0; i < k; i++) {

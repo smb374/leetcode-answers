@@ -1,9 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/21 13:49
+// Created by Po-Yeh Chen at 2025/01/26 08:37
 // leetgo: 1.4.13
 // https://leetcode.com/problems/permutation-in-string/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -11,31 +12,32 @@ using namespace std;
 class Solution {
   public:
     bool checkInclusion(string t, string s) {
-        int m = s.size(), n = t.size();
-        int required = 0, formed = 0, lo = 0, hi = 0;
-        int target[128] = {0}, window[128] = {0};
+        if (s.empty() || t.empty() || s.size() < t.size())
+            return false;
+        size_t n = s.size(), m = t.size();
+        int lo = 0, hi = 0, required = 0, formed = 0;
+        int window[128] = {0}, target[128] = {0};
 
         for (const char c : t) {
-            if (!target[c]) {
+            if (!target[c])
                 required++;
-            }
             target[c]++;
         }
 
-        while (hi < m) {
+        while (hi < n) {
             char c = s[hi++];
-            // unlike 76, the match need to have the same characters in
-            // t so we increase window only if the character is in t.
             if (target[c]) {
                 window[c]++;
                 if (window[c] == target[c]) {
                     formed++;
                 }
             }
-            while (hi - lo >= n) {
+
+            if (hi - lo >= m) {
                 if (formed == required) {
                     return true;
                 }
+
                 char d = s[lo++];
                 if (target[d]) {
                     if (window[d] == target[d]) {
@@ -45,6 +47,7 @@ class Solution {
                 }
             }
         }
+
         return false;
     }
 };

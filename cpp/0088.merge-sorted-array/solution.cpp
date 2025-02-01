@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/20 09:12
+// Created by Po-Yeh Chen at 2025/01/23 08:27
 // leetgo: 1.4.13
 // https://leetcode.com/problems/merge-sorted-array/
 
@@ -14,6 +14,7 @@ class Solution {
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
         vector<int> res(m + n, 0);
         int i = 0, j = 0, top = 0;
+
         while (i < m && j < n) {
             if (nums1[i] < nums2[j]) {
                 res[top++] = nums1[i++];
@@ -22,12 +23,10 @@ class Solution {
             }
         }
 
-        while (i < m) {
+        while (i < m)
             res[top++] = nums1[i++];
-        }
-        while (j < n) {
+        while (j < n)
             res[top++] = nums2[j++];
-        }
 
         res.swap(nums1);
     }
@@ -49,8 +48,8 @@ int main() {
     LeetCodeIO::scan(cin, n);
 
     Solution* obj = new Solution();
-    obj->merge(nums1, m, nums2, n);
-    LeetCodeIO::print(out_stream, nums1);
+    auto res = obj->merge(nums1, m, nums2, n);
+    LeetCodeIO::print(out_stream, res);
     cout << "\noutput: " << out_stream.rdbuf() << endl;
 
     delete obj;

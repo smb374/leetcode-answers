@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:30
+// Created by Po-Yeh Chen at 2025/01/30 09:23
 // leetgo: 1.4.13
 // https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 
@@ -14,9 +14,10 @@ class Solution {
     ListNode* removeNthFromEnd(ListNode* head, int n) {
         if (!head)
             return nullptr;
+
         ListNode dummy(-1, head);
-        int count = 0;
         ListNode *slow = &dummy, *fast = &dummy, *prev;
+
         for (int i = 0; i < n; i++) {
             fast = fast->next;
         }
@@ -26,7 +27,7 @@ class Solution {
             fast = fast->next;
         }
 
-        prev->next = prev->next->next;
+        prev->next = slow->next;
         return dummy.next;
     }
 };

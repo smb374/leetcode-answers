@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:57
+// Created by Po-Yeh Chen at 2025/01/31 09:27
 // leetgo: 1.4.13
 // https://leetcode.com/problems/find-the-duplicate-number/
 
@@ -11,8 +11,7 @@ using namespace std;
 class Solution {
   public:
     int findDuplicate(vector<int>& nums) {
-        int slow = nums[0];
-        int fast = nums[nums[0]];
+        int slow = nums[0], fast = nums[nums[0]];
         while (slow != fast) {
             slow = nums[slow];
             fast = nums[nums[fast]];

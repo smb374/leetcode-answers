@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/20 09:04
+// Created by Po-Yeh Chen at 2025/01/23 10:28
 // leetgo: 1.4.13
 // https://leetcode.com/problems/sliding-window-median/
 
@@ -16,12 +16,11 @@ using namespace std;
 class Solution {
   public:
     vector<double> medianSlidingWindow(vector<int>& nums, int k) {
-        vector<double> res;
-        int n = nums.size();
-        unordered_map<int64_t, int64_t> lazy_pop;
+        unordered_map<int64_t, int> lazy_pop;
         priority_queue<int64_t, vector<int64_t>, less<>> max_heap;
         priority_queue<int64_t, vector<int64_t>, greater<>> min_heap;
-
+        int n = nums.size();
+        vector<double> res;
         for (int i = 0; i < k; i++) {
             max_heap.push(nums[i]);
         }
@@ -42,7 +41,7 @@ class Solution {
 
             int p = nums[i - k], q = nums[i], bal = 0;
 
-            if (p <= max_heap.top()) {
+            if (!max_heap.empty() && p <= max_heap.top()) {
                 bal--;
                 if (p == max_heap.top()) {
                     max_heap.pop();

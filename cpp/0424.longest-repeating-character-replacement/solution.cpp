@@ -1,10 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/20 10:36
+// Created by Po-Yeh Chen at 2025/01/26 08:29
 // leetgo: 1.4.13
 // https://leetcode.com/problems/longest-repeating-character-replacement/
 
 #include "LC_IO.h"
 #include <algorithm>
 #include <bits/stdc++.h>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -12,19 +13,23 @@ using namespace std;
 class Solution {
   public:
     int characterReplacement(string s, int k) {
-        int n = s.length(), res = 0;
-        int freq[128] = {0}, max_freq = 0;
-        int lo = 0;
+        if (s.empty())
+            return 0;
 
-        for (int hi = 0; hi < n; hi++) {
-            freq[s[hi]]++;
-            max_freq = max(max_freq, freq[s[hi]]);
+        size_t sz = s.size();
+        int lo = 0, hi = 0, res = 0;
+        int window[128] = {0}, max_freq = 0;
 
-            while ((hi - lo + 1) - max_freq > k) {
-                freq[s[lo]]--;
-                lo++;
+        while (hi < sz) {
+            char c = s[hi++];
+            window[c]++;
+            max_freq = max(max_freq, window[c]);
+
+            while ((hi - lo) - max_freq > k) {
+                char d = s[lo++];
+                window[d]--;
             }
-            res = max(res, hi - lo + 1);
+            res = max(res, hi - lo);
         }
 
         return res;

@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/21 08:41
+// Created by Po-Yeh Chen at 2025/01/23 18:37
 // leetgo: 1.4.13
 // https://leetcode.com/problems/top-k-frequent-elements/
 
@@ -15,15 +15,15 @@ using namespace std;
 
 class Solution {
   public:
+    using element = pair<int, int>;
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> freq;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>>
-            min_heap;
         vector<int> res;
-        res.reserve(k);
+        priority_queue<element, vector<element>, greater<>> min_heap;
 
-        for (int num : nums) {
-            freq[num]++;
+        res.reserve(k);
+        for (const int n : nums) {
+            freq[n]++;
         }
 
         for (auto& entry : freq) {

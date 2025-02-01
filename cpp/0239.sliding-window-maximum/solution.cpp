@@ -1,10 +1,13 @@
-// Created by Po-Yeh Chen at 2025/01/20 10:13
+// Created by Po-Yeh Chen at 2025/01/26 10:12
 // leetgo: 1.4.13
 // https://leetcode.com/problems/sliding-window-maximum/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
-#include <deque>
+#include <cstddef>
+#include <functional>
+#include <queue>
+#include <utility>
 #include <vector>
 using namespace std;
 
@@ -12,29 +15,26 @@ using namespace std;
 
 class Solution {
   public:
+    using element = pair<int, int>;
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
-        deque<int> dq;
+        if (nums.empty())
+            return {};
+        size_t sz = nums.size();
         vector<int> res;
-        int n = nums.size();
+        priority_queue<element, vector<element>, less<>> max_heap;
 
         for (int i = 0; i < k; i++) {
-            while (!dq.empty() && nums[i] > nums[dq.back()]) {
-                dq.pop_back();
-            }
-            dq.push_back(i);
+            max_heap.emplace(nums[i], i);
         }
 
-        res.emplace_back(nums[dq.front()]);
-        for (int i = k; i < n; i++) {
-            if (i - k == dq.front()) {
-                dq.pop_front();
-            }
+        res.push_back(max_heap.top().first);
 
-            while (!dq.empty() && nums[i] > nums[dq.back()]) {
-                dq.pop_back();
+        for (int i = k; i < sz; i++) {
+            while (!max_heap.empty() && max_heap.top().second <= i - k) {
+                max_heap.pop();
             }
-            dq.push_back(i);
-            res.emplace_back(nums[dq.front()]);
+            max_heap.emplace(nums[i], i);
+            res.push_back(max_heap.top().first);
         }
 
         return res;

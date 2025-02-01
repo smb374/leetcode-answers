@@ -1,11 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/20 09:41
+// Created by Po-Yeh Chen at 2025/01/25 10:09
 // leetgo: 1.4.13
 // https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
 
 #include "LC_IO.h"
-#include <algorithm>
 #include <bits/stdc++.h>
-#include <limits>
+#include <climits>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -13,20 +13,20 @@ using namespace std;
 class Solution {
   public:
     int maxProfit(vector<int>& prices) {
-        int profit = 0, n = prices.size();
-        int min_price = numeric_limits<int>::max(),
-            max_price = numeric_limits<int>::min();
+        size_t sz = prices.size();
+        int max_price = INT_MIN, min_price = INT_MAX, res = 0;
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < sz; i++) {
             if (prices[i] < min_price) {
-                min_price = max_price = prices[i];
+                max_price = min_price = prices[i];
             } else if (prices[i] > max_price) {
                 max_price = prices[i];
             }
-            profit = max(profit, max_price - min_price);
+
+            res = max(res, max_price - min_price);
         }
 
-        return profit;
+        return res;
     }
 };
 

@@ -1,50 +1,39 @@
-// Created by Po-Yeh Chen at 2025/01/20 09:16
+// Created by Po-Yeh Chen at 2025/01/23 09:09
 // leetgo: 1.4.13
 // https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
+#include <functional>
+#include <queue>
+#include <utility>
 #include <vector>
 using namespace std;
 
 // @lc code=begin
 
 class Solution {
-  private:
-    // Finding the number of divided elements by mid.
-    int saddleback_lowerbound(const vector<vector<int>>& matrix, int mid) {
-        int count = 0, n = matrix.size();
-        int row = n - 1, col = 0;
-
-        while (row >= 0 && col < n) {
-            if (matrix[row][col] <= mid) {
-                count += row + 1;
-                col++;
-            } else {
-                row--;
-            }
-        }
-
-        return count;
-    }
-
   public:
+    using element = pair<int, pair<int, int>>;
     int kthSmallest(vector<vector<int>>& matrix, int k) {
         int n = matrix.size();
-        int lo = matrix[0][0], hi = matrix[n - 1][n - 1];
+        priority_queue<element, vector<element>, greater<>> min_heap;
+        for (int i = 0; i < n; i++) {
+            min_heap.push({matrix[i][0], {i, 0}});
+        }
 
-        while (lo < hi) {
-            int mid = lo + ((hi - lo) >> 1);
-            int count = saddleback_lowerbound(matrix, mid);
+        while (--k && !min_heap.empty()) {
+            element top = min_heap.top();
+            min_heap.pop();
+            auto [r, c] = top.second;
 
-            if (count < k) {
-                lo = mid + 1;
-            } else {
-                hi = mid;
+            if (c + 1 < n) {
+                min_heap.push({matrix[r][c + 1], {r, c + 1}});
             }
         }
 
-        return lo;
+        return min_heap.top().first;
     }
 };
 

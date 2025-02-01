@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/20 09:33
+// Created by Po-Yeh Chen at 2025/01/31 10:34
 // leetgo: 1.4.13
 // https://leetcode.com/problems/merge-k-sorted-lists/
 
@@ -26,14 +26,13 @@ class Solution {
         }
 
         while (!min_heap.empty()) {
-            ListNode* node = min_heap.top();
+            ListNode* top = min_heap.top();
             min_heap.pop();
-
-            if (node->next) {
-                min_heap.push(node->next);
-            }
-            prev->next = node;
+            prev->next = top;
             prev = prev->next;
+            if (top->next) {
+                min_heap.push(top->next);
+            }
         }
 
         return dummy.next;

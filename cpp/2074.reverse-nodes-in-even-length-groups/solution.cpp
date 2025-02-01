@@ -1,9 +1,10 @@
-// Created by Po-Yeh Chen at 2025/01/22 09:24
+// Created by Po-Yeh Chen at 2025/01/23 09:31
 // leetgo: 1.4.13
 // https://leetcode.com/problems/reverse-nodes-in-even-length-groups/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
+#include <cstdio>
 using namespace std;
 
 // @lc code=begin
@@ -11,28 +12,30 @@ using namespace std;
 class Solution {
   public:
     ListNode* reverseEvenLengthGroups(ListNode* head) {
-        if (!head || !head->next)
-            return head;
+        int limit = 1;
 
         ListNode dummy(-1, head);
         ListNode *prev = &dummy, *curr = head, *next;
-        int limit = 1, size;
 
         while (prev->next) {
             curr = prev->next;
-            for (size = 1; size < limit && curr->next; size++) {
+            int count = 1;
+            for (int i = 0; i < limit - 1 && curr->next; i++) {
+                count++;
                 curr = curr->next;
             }
-            if (size % 2 == 0) {
+            if (count % 2 == 0) {
                 curr = prev->next;
                 next = curr->next;
-                for (int i = 0; i < size - 1; i++) {
+
+                for (int i = 0; i < count - 1; i++) {
                     curr->next = next->next;
                     next->next = prev->next;
                     prev->next = next;
                     next = curr->next;
                 }
             }
+
             limit++;
             prev = curr;
         }

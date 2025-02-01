@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/22 11:38
+// Created by Po-Yeh Chen at 2025/01/23 08:58
 // leetgo: 1.4.13
 // https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
 
@@ -7,8 +7,8 @@
 #include <bits/stdc++.h>
 #include <cstdint>
 #include <functional>
-#include <string>
 #include <unordered_map>
+#include <variant>
 #include <vector>
 using namespace std;
 
@@ -18,35 +18,32 @@ class Solution {
   private:
     int16_t visited;
     unordered_map<int16_t, bool> memo;
-
-    inline bool get_idx(int idx) { return ((visited >> idx) & 1) == 1; }
-    inline void toggle_idx(int idx) { visited ^= (1 << idx); }
     bool backtrack(int idx, int count, int current, const int& target,
                    const int& k, const vector<int>& nums) {
         if (count == k - 1) {
             return true;
-        } else if (current > target) {
+        }
+        if (current > target) {
             return false;
-        } else if (current == target) {
-            bool result = backtrack(0, count + 1, 0, target, k, nums);
-            memo[visited] = result;
-            return result;
-        } else if (memo.find(visited) != memo.end()) {
+        }
+        if (current == target) {
+            memo[visited] = backtrack(0, count + 1, 0, target, k, nums);
+            return memo[visited];
+        }
+        if (memo.find(visited) != memo.end()) {
             return memo[visited];
         }
 
         for (int i = idx; i < nums.size(); i++) {
-            if (get_idx(i))
+            if (((visited >> i) & 1) == 1)
                 continue;
-
-            toggle_idx(i);
+            visited ^= 1 << i;
             if (backtrack(i + 1, count, current + nums[i], target, k, nums)) {
                 memo[visited] = true;
                 return true;
             }
-            toggle_idx(i);
+            visited ^= 1 << i;
         }
-
         memo[visited] = false;
         return false;
     }
@@ -54,18 +51,15 @@ class Solution {
   public:
     bool canPartitionKSubsets(vector<int>& nums, int k) {
         int total = 0;
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-            total += nums[i];
+        for (const int v : nums) {
+            total += v;
         }
-
         if (total % k != 0) {
             return false;
         }
-        sort(nums.begin(), nums.end(), greater<>{});
-
         int target = total / k;
+
+        sort(nums.begin(), nums.end(), greater<>{});
         return backtrack(0, 0, 0, target, k, nums);
     }
 };

@@ -1,10 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/18 09:32
+// Created by Po-Yeh Chen at 2025/01/25 08:58
 // leetgo: 1.4.13
 // https://leetcode.com/problems/3sum/
 
 #include "LC_IO.h"
 #include <algorithm>
 #include <bits/stdc++.h>
+#include <cstddef>
 #include <vector>
 using namespace std;
 
@@ -13,16 +14,16 @@ using namespace std;
 class Solution {
   public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-        int n = nums.size();
+        size_t sz = nums.size();
         vector<vector<int>> res;
         sort(nums.begin(), nums.end());
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < sz; i++) {
             if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int x = nums[i];
-            int j = i + 1, k = n - 1;
+            int j = i + 1, k = sz - 1;
             while (j < k) {
                 int y = nums[j], z = nums[k];
                 int sum = x + y + z;

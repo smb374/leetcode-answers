@@ -1,10 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/21 14:10
+// Created by Po-Yeh Chen at 2025/01/26 08:46
 // leetgo: 1.4.13
 // https://leetcode.com/problems/minimum-window-substring/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
 #include <climits>
+#include <cstddef>
 using namespace std;
 
 // @lc code=begin
@@ -12,10 +13,13 @@ using namespace std;
 class Solution {
   public:
     string minWindow(string s, string t) {
-        int m = s.size(), n = t.size();
-        int target[128] = {0}, window[128] = {0};
-        int required = 0, formed = 0, lo = 0, hi = 0;
+        if (s.empty() || t.empty() || s.size() < t.size())
+            return "";
+        size_t m = s.size(), n = t.size();
+        int lo = 0, hi = 0, required = 0, formed = 0;
         int base = 0, mlen = INT_MAX;
+        int window[128] = {0}, target[128] = {0};
+
         for (const char c : t) {
             if (!target[c])
                 required++;
@@ -24,11 +28,9 @@ class Solution {
 
         while (hi < m) {
             char c = s[hi++];
-            if (target[c]) {
-                window[c]++;
-                if (window[c] == target[c]) {
-                    formed++;
-                }
+            window[c]++;
+            if (window[c] == target[c]) {
+                formed++;
             }
 
             while (formed == required) {
@@ -38,14 +40,13 @@ class Solution {
                 }
 
                 char d = s[lo++];
-                if (target[d]) {
-                    if (window[d] == target[d]) {
-                        formed--;
-                    }
-                    window[d]--;
+                window[d]--;
+                if (window[d] < target[d]) {
+                    formed--;
                 }
             }
         }
+
         return mlen == INT_MAX ? "" : s.substr(base, mlen);
     }
 };

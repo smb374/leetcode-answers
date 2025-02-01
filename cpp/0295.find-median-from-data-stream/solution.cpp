@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/20 08:59
+// Created by Po-Yeh Chen at 2025/01/23 10:15
 // leetgo: 1.4.13
 // https://leetcode.com/problems/find-median-from-data-stream/
 
@@ -21,10 +21,10 @@ class MedianFinder {
 
     void addNum(int num) {
         max_heap.push(num);
-        // balance
+
         min_heap.push(max_heap.top());
         max_heap.pop();
-        // maintain size property s.t. maxheap.size >= min_heap.size
+
         if (max_heap.size() < min_heap.size()) {
             max_heap.push(min_heap.top());
             min_heap.pop();
@@ -32,11 +32,9 @@ class MedianFinder {
     }
 
     double findMedian() {
-        if (max_heap.size() > min_heap.size()) {
-            return max_heap.top();
-        } else {
-            return (max_heap.top() + min_heap.top()) * 0.5;
-        }
+        return max_heap.size() > min_heap.size()
+                   ? max_heap.top()
+                   : (max_heap.top() + min_heap.top()) * 0.5;
     }
 };
 

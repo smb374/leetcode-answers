@@ -1,0 +1,17 @@
+input:
+"anagram"
+"nagaram"
+output:
+true
+
+input:
+"rat"
+"car"
+output:
+false
+
+input:
+"a"
+"ab"
+output:
+false

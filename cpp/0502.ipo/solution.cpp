@@ -1,10 +1,11 @@
-// Created by Po-Yeh Chen at 2025/01/20 08:55
+// Created by Po-Yeh Chen at 2025/01/23 10:20
 // leetgo: 1.4.13
 // https://leetcode.com/problems/ipo/
 
 #include "LC_IO.h"
-#include <algorithm>
 #include <bits/stdc++.h>
+#include <complex>
+#include <functional>
 #include <queue>
 #include <utility>
 #include <vector>
@@ -14,19 +15,19 @@ using namespace std;
 
 class Solution {
   public:
+    using project = pair<int, int>;
     int findMaximizedCapital(int k, int w, vector<int>& profits,
                              vector<int>& capital) {
         int n = profits.size(), top = 0;
-        vector<pair<int, int>> projects(n);
-        priority_queue<int> max_heap;
+        vector<project> projects(n);
+        priority_queue<int, vector<int>, less<>> max_heap;
         for (int i = 0; i < n; i++) {
             projects[i].first = capital[i];
             projects[i].second = profits[i];
         }
-
         sort(projects.begin(), projects.end());
 
-        for (int i = 0; i < k; i++) {
+        while (k--) {
             while (top < n && projects[top].first <= w) {
                 max_heap.push(projects[top].second);
                 top++;

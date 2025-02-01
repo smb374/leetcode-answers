@@ -1,10 +1,9 @@
-// Created by Po-Yeh Chen at 2025/01/22 11:24
+// Created by Po-Yeh Chen at 2025/01/27 08:45
 // leetgo: 1.4.13
 // https://leetcode.com/problems/generate-parentheses/
 
 #include "LC_IO.h"
 #include <bits/stdc++.h>
-#include <ctime>
 #include <string>
 #include <vector>
 using namespace std;
@@ -14,19 +13,21 @@ using namespace std;
 class Solution {
   private:
     string path;
-    void backtrack(int opened, int closed, vector<string>& res, const int& n) {
+    vector<string> res;
+
+    void backtrack(int opened, int closed, const int& n) {
         if (closed == n) {
             res.emplace_back(path);
         }
 
         if (opened < n) {
             path.push_back('(');
-            backtrack(opened + 1, closed, res, n);
+            backtrack(opened + 1, closed, n);
             path.pop_back();
         }
         if (closed < opened) {
             path.push_back(')');
-            backtrack(opened, closed + 1, res, n);
+            backtrack(opened, closed + 1, n);
             path.pop_back();
         }
     }
@@ -34,8 +35,7 @@ class Solution {
   public:
     vector<string> generateParenthesis(int n) {
         path.reserve(n * 2);
-        vector<string> res;
-        backtrack(0, 0, res, n);
+        backtrack(0, 0, n);
         return res;
     }
 };

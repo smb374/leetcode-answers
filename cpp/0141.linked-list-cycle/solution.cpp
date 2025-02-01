@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/18 10:49
+// Created by Po-Yeh Chen at 2025/01/30 09:03
 // leetgo: 1.4.13
 // https://leetcode.com/problems/linked-list-cycle/
 
@@ -37,7 +37,7 @@ int main() {
     LeetCodeIO::scan(cin, pos);
 
     Solution* obj = new Solution();
-    auto res = obj->hasCycle(head, pos);
+    auto res = obj->hasCycle(head);
     LeetCodeIO::print(out_stream, res);
     cout << "\noutput: " << out_stream.rdbuf() << endl;
 

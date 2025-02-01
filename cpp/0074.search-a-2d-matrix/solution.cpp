@@ -1,4 +1,4 @@
-// Created by Po-Yeh Chen at 2025/01/21 22:25
+// Created by Po-Yeh Chen at 2025/01/28 10:17
 // leetgo: 1.4.13
 // https://leetcode.com/problems/search-a-2d-matrix/
 
@@ -11,23 +11,22 @@ using namespace std;
 class Solution {
   public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
-        if (matrix.empty())
+        int m = matrix.size();
+        if (!m)
             return false;
+        int n = matrix[0].size();
 
-        int m = matrix.size(), n = matrix[0].size();
         int row = m - 1, col = 0;
 
         while (row >= 0 && col < n) {
-            int elem = matrix[row][col];
-            if (elem == target) {
+            if (matrix[row][col] == target) {
                 return true;
-            } else if (elem < target) {
-                col++;
-            } else if (elem > target) {
+            } else if (matrix[row][col] > target) {
                 row--;
+            } else if (matrix[row][col] < target) {
+                col++;
             }
         }
-
         return false;
     }
 };
